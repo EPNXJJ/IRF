@@ -63,8 +63,17 @@ namespace UserMaintenance
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            var torlendo = (User)listUsers.SelectedItem;
-            users.Remove(torlendo);
+            if (users.Count() == 0) MessageBox.Show("A lista üres!");
+            
+            try
+            {
+                var torlendo = (User)listUsers.SelectedItem;
+                users.Remove(torlendo);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }
