@@ -52,7 +52,7 @@ namespace VaR
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.RowHeadersWidth = 51;
             this.dataGridView2.RowTemplate.Height = 24;
-            this.dataGridView2.Size = new System.Drawing.Size(372, 417);
+            this.dataGridView2.Size = new System.Drawing.Size(372, 235);
             this.dataGridView2.TabIndex = 1;
             // 
             // Form1
