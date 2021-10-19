@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +17,7 @@ namespace VaR
         List<Tick> Ticks;
         PortfolioEntities context = new PortfolioEntities();
         List<PortfolioItem> portfolioItems = new List<PortfolioItem>();
+        List<decimal> Nyeresegek = new List<decimal>();
 
         public Form1()
         {
@@ -26,7 +28,6 @@ namespace VaR
 
             CreatePortfolio();
 
-            List<decimal> Nyereségek = new List<decimal>();
             int intervalum = 30;
             DateTime kezdőDátum = (from x in Ticks select x.TradingDay).Min();
             DateTime záróDátum = new DateTime(2016, 12, 30);
@@ -35,15 +36,15 @@ namespace VaR
             {
                 decimal ny = GetPortfolioValue(kezdőDátum.AddDays(i + intervalum))
                            - GetPortfolioValue(kezdőDátum.AddDays(i));
-                Nyereségek.Add(ny);
+                Nyeresegek.Add(ny);
                 Console.WriteLine(i + " " + ny);
             }
 
-            var nyereségekRendezve = (from x in Nyereségek
+            var nyeresegekRendezve = (from x in Nyeresegek
                                       orderby x
                                       select x)
                                         .ToList();
-            MessageBox.Show(nyereségekRendezve[nyereségekRendezve.Count() / 5].ToString());
+            MessageBox.Show(nyeresegekRendezve[nyeresegekRendezve.Count() / 5].ToString());
         }
 
         private void CreatePortfolio()
@@ -68,6 +69,37 @@ namespace VaR
                 value += (decimal)last.Price * item.Volume;
             }
             return value;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+            
+            sfd.InitialDirectory = Application.StartupPath;
+            sfd.Filter = "txt files (*.txt) | *.txt";
+            sfd.DefaultExt = "txt";
+            sfd.AddExtension = true;
+
+            if (sfd.ShowDialog() != DialogResult.OK) return;
+
+            using(StreamWriter sw = new StreamWriter(sfd.FileName, false, Encoding.UTF8))
+            {
+                sw.Write("Időszak");
+                sw.Write(" ");
+                sw.Write("Nyereség");
+                sw.WriteLine();
+
+                int counter = 1;
+                foreach (var item in Nyeresegek)
+                {
+                    sw.Write(counter);
+                    sw.Write(" ");
+                    sw.Write(item);
+                    sw.WriteLine();
+
+                    counter++;
+                }
+            }
         }
     }
 }
