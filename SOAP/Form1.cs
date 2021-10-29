@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
 
 namespace SOAP
 {
@@ -23,9 +24,10 @@ namespace SOAP
             GetExchangeRates();
 
             dataGridView1.DataSource = Rates;
+            ProcessXML(GetExchangeRates());
         }
 
-        private void GetExchangeRates()
+        private string GetExchangeRates()
         {
             var mnbService = new MNBArfolyamServiceSoapClient();
 
@@ -41,6 +43,30 @@ namespace SOAP
             var result = response.GetExchangeRatesResult;
 
             richTextBox1.AppendText(result);
+
+            return result;
+        }
+
+        private void ProcessXML(string result)
+        {
+            var xml = new XmlDocument();
+
+            xml.LoadXml(result);
+
+            foreach(XmlElement item in xml.DocumentElement)
+            {
+                var rd = new RateData();
+                rd.Date = DateTime.Parse(item.GetAttribute("date"));
+                
+                var childElement = (XmlElement)item.ChildNodes[0];
+                rd.Currency = childElement.GetAttribute("curr");
+                
+                var unit = decimal.Parse(childElement.GetAttribute("unit"));
+                var value = decimal.Parse(childElement.InnerText);
+                if (unit != 0) rd.Value = value / unit;
+
+                Rates.Add(rd);
+            }
         }
     }
 }
