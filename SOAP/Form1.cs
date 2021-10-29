@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 using System.Xml;
 
 namespace SOAP
@@ -21,10 +22,7 @@ namespace SOAP
         {
             InitializeComponent();
 
-            GetExchangeRates();
-
-            dataGridView1.DataSource = Rates;
-            ProcessXML(GetExchangeRates());
+            RefreshData();
         }
 
         private string GetExchangeRates()
@@ -33,16 +31,14 @@ namespace SOAP
 
             var request = new GetExchangeRatesRequestBody()
             {
-                currencyNames = "EUR",
-                startDate = "2020-01-01",
-                endDate = "2020-06-30"
+                currencyNames = comboBox1.SelectedItem.ToString(),
+                startDate = dateTimePicker1.Value.ToString(),
+                endDate = dateTimePicker2.Value.ToString()
             };
 
             var response = mnbService.GetExchangeRates(request);
 
             var result = response.GetExchangeRatesResult;
-
-            richTextBox1.AppendText(result);
 
             return result;
         }
@@ -67,6 +63,53 @@ namespace SOAP
 
                 Rates.Add(rd);
             }
+        }
+
+        private void ShowData()
+        {
+            chart1.DataSource = Rates;
+
+            var series = chart1.Series[0];
+
+            series.ChartType = SeriesChartType.Line;
+            series.XValueMember = "Date";
+            series.YValueMembers = "Value";
+            series.BorderWidth = 2;
+
+            var legend = chart1.Legends[0];
+            legend.Enabled = false;
+
+            var chartArea = chart1.ChartAreas[0];
+            chartArea.AxisX.MajorGrid.Enabled = false;
+            chartArea.AxisY.MajorGrid.Enabled = false;
+            chartArea.AxisY.IsStartedFromZero = false;
+        }
+
+        private void RefreshData()
+        {
+            Rates.Clear();
+
+            GetExchangeRates();
+
+            dataGridView1.DataSource = Rates;
+            ProcessXML(GetExchangeRates());
+
+            ShowData();
+        }
+
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+            RefreshData();
+        }
+
+        private void dateTimePicker2_ValueChanged(object sender, EventArgs e)
+        {
+            RefreshData();
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            RefreshData();
         }
     }
 }
