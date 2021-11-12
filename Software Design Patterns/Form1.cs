@@ -1,4 +1,5 @@
-﻿using Software_Design_Patterns.Entities;
+﻿using Software_Design_Patterns.Abstractions;
+using Software_Design_Patterns.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,7 +14,7 @@ namespace Software_Design_Patterns
 {
     public partial class Form1 : Form
     {
-        List<Ball> _balls = new List<Ball>();
+        List<Toy> _toys = new List<Toy>();
 
         private BallFactory _factory;
 
@@ -23,8 +24,6 @@ namespace Software_Design_Patterns
             set { _factory = value; }
         }
 
-
-
         public Form1()
         {
             InitializeComponent();
@@ -33,26 +32,26 @@ namespace Software_Design_Patterns
 
         private void createTimer_Tick(object sender, EventArgs e)
         {
-            var ball = Factory.CreateNew();
-            _balls.Add(ball);
-            mainPanel.Controls.Add(ball);
-            ball.Left = -ball.Width;
+            var toy = Factory.CreateNew();
+            _toys.Add(toy);
+            mainPanel.Controls.Add(toy);
+            toy.Left = -toy.Width;
         }
 
         private void conveyorTimer_Tick(object sender, EventArgs e)
         {
             var maxPosition = 0;
-            foreach(var ball in _balls)
+            foreach(var toy in _toys)
             {
-                ball.MoveToy();
-                if (ball.Left > maxPosition) maxPosition = ball.Left;
+                toy.MoveToy();
+                if (toy.Left > maxPosition) maxPosition = toy.Left;
             }
 
             if(maxPosition > 1000)
             {
-                var firstBall = _balls[0];
-                _balls.Remove(firstBall);
-                mainPanel.Controls.Remove(firstBall);
+                var firstToy = _toys[0];
+                _toys.Remove(firstToy);
+                mainPanel.Controls.Remove(firstToy);
             }
         }
     }
