@@ -36,11 +36,13 @@ namespace Software_Design_Patterns
             this.carButton = new System.Windows.Forms.Button();
             this.createTimer = new System.Windows.Forms.Timer(this.components);
             this.conveyorTimer = new System.Windows.Forms.Timer(this.components);
+            this.colorButton = new System.Windows.Forms.Button();
             this.mainPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // mainPanel
             // 
+            this.mainPanel.Controls.Add(this.colorButton);
             this.mainPanel.Controls.Add(this.label1);
             this.mainPanel.Controls.Add(this.ballButton);
             this.mainPanel.Controls.Add(this.carButton);
@@ -52,7 +54,7 @@ namespace Software_Design_Patterns
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(275, 22);
+            this.label1.Location = new System.Drawing.Point(392, 22);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(89, 17);
             this.label1.TabIndex = 2;
@@ -90,6 +92,16 @@ namespace Software_Design_Patterns
             this.conveyorTimer.Interval = 10;
             this.conveyorTimer.Tick += new System.EventHandler(this.conveyorTimer_Tick);
             // 
+            // colorButton
+            // 
+            this.colorButton.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.colorButton.Location = new System.Drawing.Point(266, 22);
+            this.colorButton.Name = "colorButton";
+            this.colorButton.Size = new System.Drawing.Size(94, 59);
+            this.colorButton.TabIndex = 3;
+            this.colorButton.UseVisualStyleBackColor = false;
+            this.colorButton.Click += new System.EventHandler(this.colorButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -112,6 +124,7 @@ namespace Software_Design_Patterns
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button ballButton;
         private System.Windows.Forms.Button carButton;
+        private System.Windows.Forms.Button colorButton;
     }
 }
 

@@ -79,5 +79,20 @@ namespace Software_Design_Patterns
             _nextToy.Left = label1.Left;
             Controls.Add(_nextToy);
         }
+
+        private void colorButton_Click(object sender, EventArgs e)
+        {
+            var button = (Button)sender;
+            ColorDialog cd = new ColorDialog();
+            cd.Color = button.BackColor;
+            if (cd.ShowDialog() != DialogResult.OK)
+            {
+                return;
+            }
+            else
+            {
+                button.BackColor = cd.Color;
+            }
+        }
     }
 }
