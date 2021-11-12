@@ -23,7 +23,6 @@ namespace SOAP
         {
             InitializeComponent();
 
-            GetCurrencies();
             ProcessCurrencyXML(GetCurrencies());
 
             RefreshData();
@@ -93,8 +92,6 @@ namespace SOAP
         private void RefreshData()
         {
             Rates.Clear();
-
-            GetExchangeRates();
 
             dataGridView1.DataSource = Rates;
             ProcessXML(GetExchangeRates());
