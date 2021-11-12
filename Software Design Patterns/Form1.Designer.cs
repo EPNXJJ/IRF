@@ -31,17 +31,23 @@ namespace Software_Design_Patterns
         {
             this.components = new System.ComponentModel.Container();
             this.mainPanel = new System.Windows.Forms.Panel();
+            this.colorButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.ballButton = new System.Windows.Forms.Button();
             this.carButton = new System.Windows.Forms.Button();
             this.createTimer = new System.Windows.Forms.Timer(this.components);
             this.conveyorTimer = new System.Windows.Forms.Timer(this.components);
-            this.colorButton = new System.Windows.Forms.Button();
+            this.presentButton = new System.Windows.Forms.Button();
+            this.boxColorButton = new System.Windows.Forms.Button();
+            this.ribbonColorButton = new System.Windows.Forms.Button();
             this.mainPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // mainPanel
             // 
+            this.mainPanel.Controls.Add(this.ribbonColorButton);
+            this.mainPanel.Controls.Add(this.boxColorButton);
+            this.mainPanel.Controls.Add(this.presentButton);
             this.mainPanel.Controls.Add(this.colorButton);
             this.mainPanel.Controls.Add(this.label1);
             this.mainPanel.Controls.Add(this.ballButton);
@@ -51,10 +57,20 @@ namespace Software_Design_Patterns
             this.mainPanel.Size = new System.Drawing.Size(801, 449);
             this.mainPanel.TabIndex = 0;
             // 
+            // colorButton
+            // 
+            this.colorButton.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.colorButton.Location = new System.Drawing.Point(155, 88);
+            this.colorButton.Name = "colorButton";
+            this.colorButton.Size = new System.Drawing.Size(94, 30);
+            this.colorButton.TabIndex = 3;
+            this.colorButton.UseVisualStyleBackColor = false;
+            this.colorButton.Click += new System.EventHandler(this.colorButton_Click);
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(392, 22);
+            this.label1.Location = new System.Drawing.Point(403, 22);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(89, 17);
             this.label1.TabIndex = 2;
@@ -92,15 +108,35 @@ namespace Software_Design_Patterns
             this.conveyorTimer.Interval = 10;
             this.conveyorTimer.Tick += new System.EventHandler(this.conveyorTimer_Tick);
             // 
-            // colorButton
+            // presentButton
             // 
-            this.colorButton.BackColor = System.Drawing.SystemColors.MenuHighlight;
-            this.colorButton.Location = new System.Drawing.Point(266, 22);
-            this.colorButton.Name = "colorButton";
-            this.colorButton.Size = new System.Drawing.Size(94, 59);
-            this.colorButton.TabIndex = 3;
-            this.colorButton.UseVisualStyleBackColor = false;
-            this.colorButton.Click += new System.EventHandler(this.colorButton_Click);
+            this.presentButton.Location = new System.Drawing.Point(269, 22);
+            this.presentButton.Name = "presentButton";
+            this.presentButton.Size = new System.Drawing.Size(94, 59);
+            this.presentButton.TabIndex = 4;
+            this.presentButton.Text = "PRESENT";
+            this.presentButton.UseVisualStyleBackColor = true;
+            this.presentButton.Click += new System.EventHandler(this.presentButton_Click);
+            // 
+            // boxColorButton
+            // 
+            this.boxColorButton.BackColor = System.Drawing.Color.Red;
+            this.boxColorButton.Location = new System.Drawing.Point(269, 88);
+            this.boxColorButton.Name = "boxColorButton";
+            this.boxColorButton.Size = new System.Drawing.Size(94, 30);
+            this.boxColorButton.TabIndex = 5;
+            this.boxColorButton.UseVisualStyleBackColor = false;
+            this.boxColorButton.Click += new System.EventHandler(this.colorButton_Click);
+            // 
+            // ribbonColorButton
+            // 
+            this.ribbonColorButton.BackColor = System.Drawing.Color.Yellow;
+            this.ribbonColorButton.Location = new System.Drawing.Point(269, 124);
+            this.ribbonColorButton.Name = "ribbonColorButton";
+            this.ribbonColorButton.Size = new System.Drawing.Size(94, 30);
+            this.ribbonColorButton.TabIndex = 6;
+            this.ribbonColorButton.UseVisualStyleBackColor = false;
+            this.ribbonColorButton.Click += new System.EventHandler(this.colorButton_Click);
             // 
             // Form1
             // 
@@ -125,6 +161,9 @@ namespace Software_Design_Patterns
         private System.Windows.Forms.Button ballButton;
         private System.Windows.Forms.Button carButton;
         private System.Windows.Forms.Button colorButton;
+        private System.Windows.Forms.Button ribbonColorButton;
+        private System.Windows.Forms.Button boxColorButton;
+        private System.Windows.Forms.Button presentButton;
     }
 }
 

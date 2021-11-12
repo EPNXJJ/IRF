@@ -42,6 +42,7 @@ namespace Software_Design_Patterns
             _toys.Add(toy);
             mainPanel.Controls.Add(toy);
             toy.Left = -toy.Width;
+            toy.Top = 140;
         }
 
         private void conveyorTimer_Tick(object sender, EventArgs e)
@@ -74,13 +75,22 @@ namespace Software_Design_Patterns
             };
         }
 
+        private void presentButton_Click(object sender, EventArgs e)
+        {
+            Factory = new PresentFactory()
+            {
+                BoxColor = boxColorButton.BackColor,
+                RibbonColor = ribbonColorButton.BackColor
+            };
+        }
+
         private void DisplayNext()
         {
-            if (_nextToy != null) Controls.Remove(_nextToy);
+            if (_nextToy != null) mainPanel.Controls.Remove(_nextToy);
             _nextToy = Factory.CreateNew();
             _nextToy.Top = label1.Top + label1.Height + 20;
             _nextToy.Left = label1.Left;
-            Controls.Add(_nextToy);
+            mainPanel.Controls.Add(_nextToy);
         }
 
         private void colorButton_Click(object sender, EventArgs e)
