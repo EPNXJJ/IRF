@@ -90,6 +90,7 @@ namespace Software_Design_Patterns
             _nextToy = Factory.CreateNew();
             _nextToy.Top = label1.Top + label1.Height + 20;
             _nextToy.Left = label1.Left;
+
             mainPanel.Controls.Add(_nextToy);
         }
 
