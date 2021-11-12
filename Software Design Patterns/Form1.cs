@@ -68,7 +68,10 @@ namespace Software_Design_Patterns
 
         private void ballButton_Click(object sender, EventArgs e)
         {
-            Factory = new BallFactory();
+            Factory = new BallFactory()
+            {
+                BallColor = colorButton.BackColor
+            };
         }
 
         private void DisplayNext()
