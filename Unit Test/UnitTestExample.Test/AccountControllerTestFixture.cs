@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnitTestExample.Controllers;
 
 namespace UnitTestExample.Test
 {
@@ -12,7 +13,14 @@ namespace UnitTestExample.Test
         [Test]
         public void TestValidateEmail(string email, bool expectedResult)
         {
+            //Arrange
+            AccountController ac = new AccountController();
 
+            //Act
+            var validation = ac.ValidateEmail(email);
+
+            //Assert
+            Assert.AreEqual(expectedResult, validation);
         }
     }
 }
