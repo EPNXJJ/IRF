@@ -84,20 +84,13 @@ namespace VaR
 
             using(StreamWriter sw = new StreamWriter(sfd.FileName, false, Encoding.UTF8))
             {
-                sw.Write("Időszak");
-                sw.Write("\t");
-                sw.Write("Nyereség");
+                sw.Write("Időszak" + "\t" + "Nyereség");
                 sw.WriteLine();
 
-                int counter = 1;
-                foreach (var item in Nyeresegek)
+                for (int i = 1; i < Nyeresegek.Count; i++)
                 {
-                    sw.Write(counter);
-                    sw.Write("\t");
-                    sw.Write(item);
+                    sw.Write(i + "\t" + Nyeresegek[i]);
                     sw.WriteLine();
-
-                    counter++;
                 }
             }
         }
