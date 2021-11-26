@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using System;
+using System.Activities;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -67,6 +68,32 @@ namespace UnitTestExample.Test
             Assert.AreEqual(validation.Email, email);
             Assert.AreEqual(validation.Password, password);
             Assert.AreNotEqual(Guid.Empty, validation.ID);
+        }
+
+        [
+            Test,
+            TestCase("irf@uni-corvinus", "Abcd1234"),
+            TestCase("irf.uni-corvinus.hu", "Abcd1234"),
+            TestCase("irf@uni-corvinus.hu", "abcd1234"),
+            TestCase("irf@uni-corvinus.hu", "ABCD1234"),
+            TestCase("irf@uni-corvinus.hu", "abcdABCD"),
+            TestCase("irf@uni-corvinus.hu", "Ab1234"),
+        ]  
+        public void TestRegisterValidateException(string email, string password)
+        {
+            //Arrange
+            AccountController ac = new AccountController();
+
+            //Act
+            try
+            {
+                var actualResult = ac.Register(email, password);
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.IsInstanceOf<ValidationException>(ex);
+            }
         }
     }
 }
