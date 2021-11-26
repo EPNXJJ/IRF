@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnitTestExample.Controllers;
+using UnitTestExample.Entities;
 
 namespace UnitTestExample.Test
 {
@@ -47,6 +48,25 @@ namespace UnitTestExample.Test
 
             //Assert
             Assert.AreEqual(expectedResult, validation);
+        }
+
+        [
+            Test,
+            TestCase("irf@uni-corvinus.hu", "Abcd1234"),
+            TestCase("irf@uni-corvinus.hu", "Abcd1234567")
+        ]
+        public void TestRegisterHappyPath(string email, string password)
+        {
+            //Arrange
+            AccountController ac = new AccountController();
+
+            //Act
+            var validation = ac.Register(email, password);
+
+            //Assert
+            Assert.AreEqual(validation.Email, email);
+            Assert.AreEqual(validation.Password, password);
+            Assert.AreNotEqual(Guid.Empty, validation.ID);
         }
     }
 }
