@@ -10,7 +10,7 @@ namespace Microsimulation.Entities
     {
         public int BirthYear { get; set; }
         public Gender Gender { get; set; }
-        public byte NbrOfChildren { get; set; }
+        public int NbrOfChildren { get; set; }
         public bool IsAlive { get; set; }
 
         public Person()

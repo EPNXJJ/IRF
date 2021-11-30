@@ -18,6 +18,8 @@ namespace Microsimulation
         List<BirthProbability> BirthProbabilities = new List<BirthProbability>();
         List<DeathProbability> DeathProbabilities = new List<DeathProbability>();
 
+        Random rng = new Random(1234);
+
         public Form1()
         {
             InitializeComponent();
@@ -25,9 +27,10 @@ namespace Microsimulation
             Population = ReadPopulation(@"C:\Temp\nép.csv");
             BirthProbabilities = ReadBirth(@"C:\Temp\születés.csv");
             DeathProbabilities = ReadDeath(@"C:\Temp\halál.csv");
+            Simulation();
         }
 
-        private List<Person> ReadPopulation(string fileName)
+        public List<Person> ReadPopulation(string fileName)
         {
             List<Person> population = new List<Person>();
 
@@ -35,13 +38,13 @@ namespace Microsimulation
             {
                 while(!sr.EndOfStream)
                 {
-                    string[] person = sr.ReadLine().Split(',');
+                    var person = sr.ReadLine().Split(';');
 
                     Person p = new Person()
                     {
                         BirthYear = int.Parse(person[0]),
                         Gender = (Gender)Enum.Parse(typeof(Gender), person[1]),
-                        NbrOfChildren = byte.Parse(person[2])
+                        NbrOfChildren = int.Parse(person[2])
                     };
 
                     population.Add(p);
@@ -51,7 +54,7 @@ namespace Microsimulation
             return population;
         }
 
-        private List<BirthProbability> ReadBirth(string fileName)
+        public List<BirthProbability> ReadBirth(string fileName)
         {
             List<BirthProbability> birthProbabilities = new List<BirthProbability>();
 
@@ -59,12 +62,12 @@ namespace Microsimulation
             {
                 while (!sr.EndOfStream)
                 {
-                    string[] person = sr.ReadLine().Split(',');
+                    var person = sr.ReadLine().Split(';');
 
                     BirthProbability bP = new BirthProbability()
                     {
                         Age = int.Parse(person[0]),
-                        NbrOfChildren = byte.Parse(person[1]),
+                        NbrOfChildren = int.Parse(person[1]),
                         Probability = double.Parse(person[2])
                     };
 
@@ -75,7 +78,7 @@ namespace Microsimulation
             return birthProbabilities;
         }
 
-        private List<DeathProbability> ReadDeath(string fileName)
+        public List<DeathProbability> ReadDeath(string fileName)
         {
             List<DeathProbability> deathProbabilities = new List<DeathProbability>();
 
@@ -83,7 +86,7 @@ namespace Microsimulation
             {
                 while (!sr.EndOfStream)
                 {
-                    string[] person = sr.ReadLine().Split(',');
+                    var person = sr.ReadLine().Split(';');
 
                     DeathProbability dP = new DeathProbability()
                     {
@@ -97,6 +100,26 @@ namespace Microsimulation
             }
 
             return deathProbabilities;
+        }
+
+        public void Simulation()
+        {
+            for (int year = 2005; year < 2024; year++)
+            {
+                for (int population = 0; population < Population.Count; population++)
+                {
+
+                }
+
+                int nbrOfMales = (from x in Population
+                                  where x.Gender == Gender.Male && x.IsAlive
+                                  select x).Count();
+                int nbrOfFemales = (from x in Population
+                                    where x.Gender == Gender.Female && x.IsAlive
+                                    select x).Count();
+                Console.WriteLine(
+                    string.Format("Év:{0} Fiúk{1} Lányok{2}", year, nbrOfMales, nbrOfFemales));
+            }
         }
     }
 }
