@@ -106,9 +106,9 @@ namespace Microsimulation
         {
             for (int year = 2005; year < 2024; year++)
             {
-                for (int population = 0; population < Population.Count; population++)
-                {
-
+                for (int person = 0; person < Population.Count; person++)
+                {                
+                    SimStep(year, Population[person]);
                 }
 
                 int nbrOfMales = (from x in Population
@@ -119,6 +119,37 @@ namespace Microsimulation
                                     select x).Count();
                 Console.WriteLine(
                     string.Format("Év:{0} Fiúk{1} Lányok{2}", year, nbrOfMales, nbrOfFemales));
+            }
+        }
+
+        public void SimStep(int year, Person person)
+        {
+            if (!person.IsAlive) return;
+            var age = year - person.BirthYear;
+
+            var dp = (from x in DeathProbabilities
+                      where age == x.Age && person.Gender == x.Gender
+                      select x.Probability).FirstOrDefault();
+
+            if (rng.NextDouble() <= dp) person.IsAlive = false;
+
+            if(person.IsAlive && person.Gender == Gender.Female)
+            {
+                var bp = (from x in BirthProbabilities
+                          where age == x.Age
+                          select x.Probability).FirstOrDefault();
+
+                if(rng.NextDouble() <= bp)
+                {
+                    Person p = new Person()
+                    {
+                        BirthYear = year,
+                        Gender = (Gender)(rng.Next(1, 3)),
+                        NbrOfChildren = 0
+                    };
+
+                    Population.Add(p);
+                }
             }
         }
     }
