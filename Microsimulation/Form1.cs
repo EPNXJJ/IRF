@@ -20,14 +20,12 @@ namespace Microsimulation
 
         Random rng = new Random(1234);
 
+        List<int> Males = new List<int>();
+        List<int> Females = new List<int>();
+
         public Form1()
         {
             InitializeComponent();
-
-            Population = ReadPopulation(@"C:\Temp\nép.csv");
-            BirthProbabilities = ReadBirth(@"C:\Temp\születés.csv");
-            DeathProbabilities = ReadDeath(@"C:\Temp\halál.csv");
-            Simulation();
         }
 
         public List<Person> ReadPopulation(string fileName)
@@ -104,10 +102,10 @@ namespace Microsimulation
 
         public void Simulation()
         {
-            for (int year = 2005; year < 2024; year++)
+            for (int year = 2005; year <= numericUpDown1.Value; year++)
             {
                 for (int person = 0; person < Population.Count; person++)
-                {                
+                {
                     SimStep(year, Population[person]);
                 }
 
@@ -117,8 +115,9 @@ namespace Microsimulation
                 int nbrOfFemales = (from x in Population
                                     where x.Gender == Gender.Female && x.IsAlive
                                     select x).Count();
-                Console.WriteLine(
-                    string.Format("Év:{0} Fiúk{1} Lányok{2}", year, nbrOfMales, nbrOfFemales));
+
+                Males.Add(nbrOfMales);
+                Females.Add(nbrOfFemales);
             }
         }
 
@@ -151,6 +150,49 @@ namespace Microsimulation
                     Population.Add(p);
                 }
             }
+        }
+
+        private void startButton_Click(object sender, EventArgs e)
+        {
+            richTextBox1.Clear();
+            Simulation();
+            DisplayResults();
+        }
+
+        private void browseButton_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.InitialDirectory = @"C:\Temp\Teszt";
+
+            if (ofd.ShowDialog() == DialogResult.OK) textBox1.Text = ofd.FileName;
+            else return;
+        }
+
+        public void DisplayResults()
+        {
+            int counter = 0;
+            for (int year = 2005; year <= numericUpDown1.Value; year++)
+            {
+                richTextBox1.Text += string.Format("Szimulációs év: {0} \n \t Fiúk: {1} \n \t Lányok: {2} \n \n", year, Males[counter], Females[counter]);
+                counter++;
+            }
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            if (textBox1.Text == @"C:\Temp\Teszt\nép.csv")
+            {
+                Population = ReadPopulation(textBox1.Text);
+                BirthProbabilities = ReadBirth(@"C:\Temp\születés.csv");
+                DeathProbabilities = ReadDeath(@"C:\Temp\halál.csv");
+            }
+                
+            if (textBox1.Text == @"C:\Temp\Teszt\nép-teszt.csv")
+            {
+                Population = ReadPopulation(textBox1.Text);
+                BirthProbabilities = ReadBirth(@"C:\Temp\születés.csv");
+                DeathProbabilities = ReadDeath(@"C:\Temp\halál.csv");
+            }         
         }
     }
 }
