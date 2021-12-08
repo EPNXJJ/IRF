@@ -35,7 +35,21 @@ namespace Evolutionary_Algorithm
                 gc.AddPlayer(nbrOfSteps);
             }
 
+            gc.GameOver += Gc_GameOver;
+            generationLabel.BringToFront();
+
             gc.Start();
+        }
+
+        private void Gc_GameOver(object sender)
+        {
+            generation++;
+            generationLabel.Text = generation.ToString() + ". generáció";
+
+            var playerList = from p in gc.GetCurrentPlayers()
+                             orderby p.GetFitness() descending
+                             select p;
+            var topPerformers = playerList.Take(populationSize / 2).ToList();
         }
     }
 }
