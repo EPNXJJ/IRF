@@ -26,6 +26,10 @@ namespace Microsimulation
         public Form1()
         {
             InitializeComponent();
+
+            numericUpDown1.ReadOnly = true;
+            textBox1.ReadOnly = true;
+            richTextBox1.ReadOnly = true;
         }
 
         public List<Person> ReadPopulation(string fileName)
